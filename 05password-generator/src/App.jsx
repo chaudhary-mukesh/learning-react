@@ -11,7 +11,7 @@ function App() {
   
   return (
     <>
-    <h1 className='d-flex justify-center'>Password Generator</h1>
+    <h1 className='d-flex justify-center'>Password Generator </h1>
     </>
   )
 }
