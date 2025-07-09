@@ -1,59 +1,66 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import logo3 from '../assets/logo3.png';
+import svgIcon from '../assets/icon.svg';
 
 const Header = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
-  const dropdownRef = useRef(null);
+  const hoverTimeout = useRef(null);
 
-  // Dummy default fallback user
   const user = JSON.parse(localStorage.getItem('user')) || { name: 'Admin' };
-
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
-  };
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    navigate('/login');
+    navigate('/');
   };
 
-  // Close dropdown when clicking outside
+  const handleMouseEnter = () => {
+    if (hoverTimeout.current) {
+      clearTimeout(hoverTimeout.current);
+    }
+    setDropdownOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    hoverTimeout.current = setTimeout(() => {
+      setDropdownOpen(false);
+    }, 150); // short delay to prevent flicker
+  };
+
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setDropdownOpen(false);
+    return () => {
+      if (hoverTimeout.current) {
+        clearTimeout(hoverTimeout.current);
       }
     };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   return (
-    <header className="bg-white shadow-md flex items-center justify-between px-6 py-4 sticky top-0 z-50">
-      <div className="logo">
+    <header className="bg-[#000101de] text-white shadow-md flex items-center justify-between px-6 py-5 sticky top-0 z-50">
+      <div className="logo w-[200px]">
         <a href="https://www.gatwickforklifts.co.uk/">
-          <img src="./assets/logo3.png" alt="Company Logo" className="h-10" />
+          <img src={logo3} alt="Company Logo" />
         </a>
       </div>
 
-      <div className="relative" ref={dropdownRef}>
-        <div
-          onClick={toggleDropdown}
-          className="cursor-pointer flex items-center space-x-2 "
-        >
-          <img src="/assets/images/icon.svg" alt="User Icon" className="w-[45px]" />
+      {/* Hover wrapper including both icon and dropdown */}
+      <div
+        className="relative"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <div className="cursor-pointer flex items-center space-x-2">
+          <img src={svgIcon} alt="User Icon" className="w-[45px]" />
           <span className="font-medium">{user.name}</span>
         </div>
 
         {dropdownOpen && (
-          <div className="absolute right-0 mt-2 bg-white border rounded shadow-md w-40">
-            {/* <a href="/profile" className="block px-4 py-2 hover:bg-gray-100">Profile</a> */}
+          <div className="absolute right-0 mt-2 bg-white border rounded shadow-md w-40 z-50">
             <button
               onClick={handleLogout}
-              className="w-full text-left px-4 py-2 hover:bg-gray-100"
+              className="w-full text-left px-4 py-2 hover:bg-[#ff9925] text-black"
             >
               Logout
             </button>

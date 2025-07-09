@@ -9,7 +9,7 @@ const Sidebar = () => {
             <NavLink
               to="/add-product"
               className={({ isActive }) =>
-                `flex px-5 py-3 no-underline text-white ${isActive ? 'bg-gray-800 font-semibold' : ''}`
+                `flex px-5 py-3 no-underline text-white ${isActive ? 'bg-[#ff9925] font-semibold' : ''}`
               }
             >
               Add New Product
@@ -19,7 +19,7 @@ const Sidebar = () => {
             <NavLink
               to="/all-products"
               className={({ isActive }) =>
-                `flex px-5 py-3 no-underline text-white ${isActive ? 'bg-gray-800 font-semibold' : ''}`
+                `flex px-5 py-3 no-underline text-white ${isActive ? 'bg-[#ff9925] font-semibold' : ''}`
               }
             >
               All Products
