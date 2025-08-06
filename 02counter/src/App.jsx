@@ -10,6 +10,7 @@ function App() {
     // console.log("add value",Math.random());
     if(counter<20){
     setCounter(counter + 1);
+    //differnt method
     // setCounter(counter + 1);
     // setCounter(prevCounter => prevCounter+1);
     // setCounter(prevCounter => prevCounter+1);
